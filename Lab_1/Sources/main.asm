@@ -70,26 +70,26 @@ Epilogo_Rutina:
 ; Escribir una rutina que mueva el mensaje de su grupo a MENSAJE en RAMStart
 ;-----------------------------------------------------------------------------------
 INICIALIZAR:
-				MOV		#$F,CUENTA			;Se inicializa la variable cuenta en $? = ??
-				LDA		Resultado1			;Se carga Resultado1 = $?? en el Acumulador 
-				STA		MAGIC				;Se guarda A=$?? en MAGIC
-				LDHX 	#MESSG1				;Se cargar en el registro HX la direccion donde comienzan los mensajes = $????
+				MOV		#$F,CUENTA			;Se inicializa la variable cuenta en $F = 15
+				LDA		Resultado1			;Se carga Resultado1 = $FF en el Acumulador 
+				STA		MAGIC				;Se guarda A=$FF en MAGIC
+				LDHX 	#MESSG1				;Se cargar en el registro HX la direccion donde comienzan los mensajes = $4010
 				LDX		MAGIC				;Se cargar en el registro X con el offset de nuestro mensaje.
-				STHX 	HXtemp				;Se guarda la direccion $???? en la variable HXtemp
-				LDHX 	#MENSAJE			;Se carga en el registro HX  la direccion donde se guardara nuestro mensaje = $????
-				STHX 	HZtemp				;;Se guarda la direccion $???? en la variable HZtemp
+				STHX 	HXtemp				;Se guarda la direccion $4010 en la variable HXtemp
+				LDHX 	#MENSAJE			;Se carga en el registro HX  la direccion donde se guardara nuestro mensaje = $0090
+				STHX 	HZtemp				;Se guarda la direccion $0090 en la variable HZtemp
 MUEVE_MENSAJE:
 
 				LDHX 	HXtemp				;Se Carga en el registro HX el contenido de HXtemp
-				MOV 	X+,VARIABLEtemp		;Se copia lo que esta en HX hacia VARIABLEtemp, Se incrementa en ? el registro HX
+				MOV 	X+,VARIABLEtemp		;Se copia lo que esta en HX hacia VARIABLEtemp, Se incrementa en 1 el registro HX
 				STHX 	HXtemp				;Se vuelve a guardar ya incrementado el valor de HX en la variable HXtemp
 				
 				LDHX 	HZtemp				;Se Carga en el registro HX el contenido de HZtemp
-				MOV 	VARIABLEtemp,X+		;Se copia lo que esta VARIABLEtemp hasta la direccion de HX, Se incrementa en ? el registro HX
+				MOV 	VARIABLEtemp,X+		;Se copia lo que esta VARIABLEtemp hasta la direccion de HX, Se incrementa en 1 el registro HX
 				STHX 	HZtemp				;Se vuelve a guardar ya incrementado el valor de HX en la variable HZtemp
 				
-				DBNZ 	CUENTA,MUEVE_MENSAJE;Decrementa en ? el contenido de CUENTA, si no ha llegago a "?" hace un salto
-											;relativo hasta MUEVE_MENSAJE, si Cuenta llega a "?" sigue. 
+				DBNZ 	CUENTA,MUEVE_MENSAJE;Decrementa en 1 el contenido de CUENTA, si no ha llegago a "0" hace un salto
+											;relativo hasta MUEVE_MENSAJE, si Cuenta llega a "0" sigue. 
 
 
 ;-----------------------------------------------------------------------------------
@@ -104,21 +104,21 @@ mainLoop:
 NUM1:           DC.B    $00							; RECUERDEN COLOCAR NUM1 !!!
 NUM2:           DC.B    $00							; RECUERDEN COLOCAR NUM2 !!!
                 ORG     $4010
-MESSG1:         DC.B    "BIENVENIDO",$20,"GR01",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG2:         DC.B    "BIENVENIDO",$20,"GR02",0  	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG3:         DC.B    "BIENVENIDO",$20,"GR03",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG4:         DC.B    "BIENVENIDO",$20,"GR04",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG5:         DC.B    "BIENVENIDO",$20,"GR05",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG6:         DC.B    "BIENVENIDO",$20,"GR06",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG7:         DC.B    "BIENVENIDO",$20,"GR07",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG8:         DC.B    "BIENVENIDO",$20,"GR08",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG9:         DC.B    "BIENVENIDO",$20,"GR09",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG10:        DC.B    "BIENVENIDO",$20,"GR10",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG11:        DC.B    "BIENVENIDO",$20,"GR11",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG12:        DC.B    "BIENVENIDO",$20,"GR12",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG13:        DC.B    "BIENVENIDO",$20,"GR13",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG14:        DC.B    "BIENVENIDO",$20,"GR14",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
-MESSG15:        DC.B    "BIENVENIDO",$20,"GR15",0	; Mensaje Guardado desde $???? hasta $???? (Grupo ?)
+MESSG1:     	DC.B    "BIENVENIDO",$20,"GR01",0   ; Mensaje Guardado desde $4010 hasta $401F (Grupo 01)
+MESSG2:    		DC.B    "BIENVENIDO",$20,"GR02",0   ; Mensaje Guardado desde $4020 hasta $402F (Grupo 02)
+MESSG3:     	DC.B    "BIENVENIDO",$20,"GR03",0   ; Mensaje Guardado desde $4030 hasta $403F (Grupo 03)
+MESSG4:     	DC.B    "BIENVENIDO",$20,"GR04",0   ; Mensaje Guardado desde $4040 hasta $404F (Grupo 04)
+MESSG5:     	DC.B    "BIENVENIDO",$20,"GR05",0   ; Mensaje Guardado desde $4050 hasta $405F (Grupo 05)
+MESSG6:     	DC.B    "BIENVENIDO",$20,"GR06",0   ; Mensaje Guardado desde $4060 hasta $406F (Grupo 06)
+MESSG7:     	DC.B    "BIENVENIDO",$20,"GR07",0   ; Mensaje Guardado desde $4070 hasta $407F (Grupo 07)
+MESSG8:     	DC.B    "BIENVENIDO",$20,"GR08",0   ; Mensaje Guardado desde $4080 hasta $408F (Grupo 08)
+MESSG9:     	DC.B    "BIENVENIDO",$20,"GR09",0   ; Mensaje Guardado desde $4090 hasta $409F (Grupo 09)
+MESSG10:    	DC.B    "BIENVENIDO",$20,"GR10",0   ; Mensaje Guardado desde $40A0 hasta $40AF (Grupo 10)
+MESSG11:    	DC.B    "BIENVENIDO",$20,"GR11",0   ; Mensaje Guardado desde $40B0 hasta $40BF (Grupo 11)
+MESSG12:    	DC.B    "BIENVENIDO",$20,"GR12",0   ; Mensaje Guardado desde $40C0 hasta $40CF (Grupo 12)
+MESSG13:    	DC.B    "BIENVENIDO",$20,"GR13",0   ; Mensaje Guardado desde $40D0 hasta $40DF (Grupo 13)
+MESSG14:    	DC.B    "BIENVENIDO",$20,"GR14",0   ; Mensaje Guardado desde $40E0 hasta $40EF (Grupo 14)
+MESSG15:    	DC.B    "BIENVENIDO",$20,"GR15",0   ; Mensaje Guardado desde $40F0 hasta $40FF (Grupo 15)
 
 
 ;-----------------------------------------------------------------------------------
@@ -146,22 +146,22 @@ LOCAL1:     	EQU 2 						;Local variables
 LOCAL2:     	EQU 1
 ;-----------------------------------------------------------------------------------
 
-Rutina:     	AIS     #-2					; Se rueda el SP dos posiciones hacia atras, Queda en $????
-            	LDA     PARAM1,SP   		; Carga en el acumulador lo que se encuentra en la posicion del SP con un offset de PARAM1=?
-            								; SP + ? = $????, Es decir carga $?? en el Acumulador
-            	ASRA               			; Realiza un shift xxxxxxxxxx hacia la xxxxxxx de lo que tenia el acumulador
-            								; El numero cambia de (????????)=$?? a (????????)=$??
-            	STA     LOCAL1,SP   		; Guarda el acumulador=($??) en SP + (LOCAL1=?) = $????
-            	LDA     PARAM2,SP   		; Carga en el acumulador lo que se encuantra en SP + (PARAM2=?) = $???? (ahi esta $?? guardado)
-            	DECA						; Decrementa en 1 el acumulador=($??), ahora es $??
-            	STA     LOCAL2,SP   		; Guarda el acumulador en SP + (LOCAL2=?) = $????
-          		LDA     LOCAL1,SP   		; Carga en el acumulador lo que esta en SP + (LOCAL1=?) = $???? (ahi esta $??)
-            	STA     PARAM1,SP   		; Guarda el acumulador=$?? en SP + PARAM1=? = $????
-            	LDA     LOCAL2,SP			; Carga en el Acumulador lo que esta en SP + (LOCAL2=?) = $???? (ahi esta $??)
-            	STA     PARAM2,SP   		; Guarda el acumulador=$?? en SP + PARAM2=? = $????
-            	AIS     #2					; Mueve el SP dos posiciones, hacia adelante. Queda en $????
+Rutina:     	AIS     #-2					; Se rueda el SP dos posiciones hacia atras, Queda en $00FA
+            	LDA     PARAM1,SP   		; Carga en el acumulador lo que se encuentra en la posicion del SP con un offset de PARAM1=6
+            								; SP + 6 = $0100, Es decir carga $00 en el Acumulador
+            	ASRA               			; Realiza un shift aritmético hacia la derecha de lo que tenia el acumulador
+            								; El numero cambia de (00000000B)=$00 a (00000000B)=$00
+            	STA     LOCAL1,SP   		; Guarda el acumulador=($00) en SP + (LOCAL1=2) = $00FC
+            	LDA     PARAM2,SP   		; Carga en el acumulador lo que se encuantra en SP + (PARAM2=5) = $00FF (ahi esta $00 guardado)
+            	DECA						; Decrementa en 1 el acumulador=($00), ahora es $FF
+            	STA     LOCAL2,SP   		; Guarda el acumulador en SP + (LOCAL2=1) = 00FB
+          		LDA     LOCAL1,SP   		; Carga en el acumulador lo que esta en SP + (LOCAL1=2) = $00FC (ahi esta $00)
+            	STA     PARAM1,SP   		; Guarda el acumulador=$00 en SP + PARAM1=6 = $0100
+            	LDA     LOCAL2,SP			; Carga en el Acumulador lo que esta en SP + (LOCAL2=1) = $00FB (ahi esta $FF)
+            	STA     PARAM2,SP   		; Guarda el acumulador=$FF en SP + PARAM2=5 = $00FF
+            	AIS     #2					; Mueve el SP dos posiciones, hacia adelante. Queda en $00FC
             	RTS                 		; Retorna de la Subrutina
-            								; se Saca del Stack PCH y PCL para guardarlos en el PC, El SP queda en $???? 
+            								; se Saca del Stack PCH y PCL para guardarlos en el PC, El SP queda en $00FE 
 
 ;	    		ORG     ROM1Start   		; Direccion $0C000  aqui colocaremos rutinas de servicio a INT
 
